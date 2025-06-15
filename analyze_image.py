@@ -18,7 +18,7 @@ rekognition = boto3.client('rekognition', region_name=region)
 
 # Upload to S3
 s3.upload_file(local_image, bucket_name, s3_key)
-print(f"✅ Uploaded to s3://{bucket_name}/{s3_key}")
+print(f"Uploaded to s3://{bucket_name}/{s3_key}")
 
 # Call Rekognition
 response = rekognition.detect_labels(
