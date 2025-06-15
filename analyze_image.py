@@ -28,6 +28,6 @@ response = rekognition.detect_labels(
 )
 
 # Print results
-print("\n🔍 Detected labels:")
+print("\n Detected labels:")
 for label in response['Labels']:
     print(f"- {label['Name']}: {label['Confidence']:.2f}%")
