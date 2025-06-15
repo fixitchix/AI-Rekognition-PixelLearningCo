@@ -1,5 +1,6 @@
 import boto3
 import os
+import json
 from datetime import datetime
 from decimal import Decimal
 
@@ -11,7 +12,7 @@ region = 'us-east-1'
 s3 = boto3.client('s3', region_name=region)
 rekognition = boto3.client('rekognition', region_name=region)
 dynamodb = boto3.resource('dynamodb', region_name=region)
-table = dynamodb.Table('beta_results')
+table = dynamodb.Table('prod_results')
 
 # Image paths
 image_paths = [
@@ -54,3 +55,8 @@ for local_image in image_paths:
     # Write to DynamoDB
     table.put_item(Item=item)
     print(f"Saved results to DynamoDB for {filename}")
+
+    print("\nItem to be saved to DynamoDB:")
+    print(json.dumps(item, indent=2, default=str))
+
+
