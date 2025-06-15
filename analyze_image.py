@@ -6,7 +6,7 @@ bucket_name = 'pixel-learning-co'
 region = 'us-east-1'
 
 # Local file path (update with your actual username)
-local_image = '/Users/tracy/Desktop/pixel learning company/images/farm animals.jpeg'
+local_image = '/Users/tracy/Desktop/pixel learning company/images/farm-animals-for-kids.jpeg'
 
 # Normalize the filename for S3 (replace spaces with dashes)
 filename = os.path.basename(local_image).replace(' ', '-')
