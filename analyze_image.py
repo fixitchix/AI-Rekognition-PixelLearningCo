@@ -1,12 +1,5 @@
 import boto3
 import os
-from datetime import datetime
-from decimal import Decimal
-
-
-# Connect to DynamoDB and reference the correct table
-dynamodb = boto3.resource('dynamodb', region_name='us-east-1')
-table = dynamodb.Table('beta_results')
 
 # AWS Config
 bucket_name = 'pixel-learning-co'
@@ -34,32 +27,7 @@ response = rekognition.detect_labels(
     MinConfidence=80
 )
 
-# Print and format results
+# Print results
 print("\n Detected labels:")
-labels = [] # This will hold the structured label info
 for label in response['Labels']:
     print(f"- {label['Name']}: {label['Confidence']:.2f}%")
-    labels.append({
-        'Name': label['Name'],
-        'Confidence': Decimal(str(round(label['Confidence'], 2)))
-    })
-
-
-
-# Create timestamp in ISO format (UTC)
-timestamp = datetime.utcnow().isoformat() + 'Z'
-
-# Get branch name (use env variable or fallback)
-branch = os.environ.get('GIT_BRANCH', 'local-testing')
-
-# Prepare item to save in DynamoDB
-item = {
-    'filename': s3_key,
-    'labels': labels,
-    'timestamp': timestamp,
-    'branch': branch
-}
-
-# Write to DynamoDB
-table.put_item(Item=item)
-print(f"\n Results saved to DynamoDB table: beta_results")
