@@ -1,0 +1,32 @@
+name: Analyze Image on Merge to Main
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  analyze-image:
+    runs-on: ubuntu-latest
+
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_REGION: ${{ secrets.AWS_REGION }}
+      S3_BUCKET_NAME: ${{ secrets.S3_BUCKET }}
+      DYNAMODB_TABLE_NAME: ${{ secrets.DYNAMODB_TABLE_PROD }}
+      GIT_BRANCH: main
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    - name: Install dependencies
+      run: pip install boto3
+
+    - name: Run image analysis
+      run: python analyze_image.py
