@@ -12,7 +12,9 @@ region = 'us-east-1'
 s3 = boto3.client('s3', region_name=region)
 rekognition = boto3.client('rekognition', region_name=region)
 dynamodb = boto3.resource('dynamodb', region_name=region)
-table = dynamodb.Table('prod_results')
+table_name = os.environ['DYNAMODB_TABLE_PROD']
+table = dynamodb.Table(table_name)
+
 
 # Image paths
 image_paths = [
